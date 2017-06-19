@@ -27,6 +27,15 @@ func ErrorUnauthorized() error {
 	}
 }
 
+func AccessForbidden() error {
+	return ErrResp{
+		Meta: ErrMeta{
+			ErrCode: 403,
+			ErrMessage: "Forbidden",
+		},
+	}
+}
+
 func ErrorNotFound(msg string) error {
 	return ErrResp{
 		Meta: ErrMeta{
