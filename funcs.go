@@ -1,6 +1,9 @@
 package rest
 
 func ErrorInternal(msg string) error {
+	if len(msg) == 0 {
+		msg = "Internal error"
+	}
 	return ErrResp{
 		Meta: ErrMeta{
 			ErrCode: 500,
@@ -10,6 +13,9 @@ func ErrorInternal(msg string) error {
 }
 
 func ErrorBadRequest(msg string) error {
+	if len(msg) == 0 {
+		msg = "Bad request"
+	}
 	return ErrResp{
 		Meta: ErrMeta{
 			ErrCode: 400,
@@ -37,6 +43,9 @@ func AccessForbidden() error {
 }
 
 func ErrorNotFound(msg string) error {
+	if len(msg) == 0 {
+		msg = "Not found"
+	}
 	return ErrResp{
 		Meta: ErrMeta{
 			ErrCode: 404,
@@ -45,20 +54,26 @@ func ErrorNotFound(msg string) error {
 	}
 }
 
-func ErrorConflict() error {
+func ErrorConflict(msg string) error {
+	if len(msg) == 0 {
+		msg = "Conflict"
+	}
 	return ErrResp{
 		Meta: ErrMeta{
 			ErrCode: 409,
-			ErrMessage: "Conflict",
+			ErrMessage: msg,
 		},
 	}
 }
 
-func ErrorLocked() error {
+func ErrorLocked(msg string) error {
+	if len(msg) == 0 {
+		msg = "Locked"
+	}
 	return ErrResp{
 		Meta: ErrMeta{
 			ErrCode: 423,
-			ErrMessage: "Locked",
+			ErrMessage: msg,
 		},
 	}
 }
