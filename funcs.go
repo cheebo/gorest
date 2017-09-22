@@ -45,6 +45,14 @@ func ErrorNotFound(msg string) error {
 	}
 }
 
+func ErrorConflict() error {
+	return ErrResp{
+		Meta: ErrMeta{
+			ErrCode: 409,
+			ErrMessage: "Conflict",
+		},
+	}
+}
 
 func ErrorLocked() error {
 	return ErrResp{
