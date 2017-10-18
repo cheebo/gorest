@@ -15,6 +15,14 @@ func (l *ListResp) AddItem(item interface{}) {
 	l.Items = append(l.Items, item)
 }
 
+func (l *ListResp) Error() string {
+	b, err := json.Marshal(l)
+	if err != nil {
+		return "ErrResp: JSON marshaling error"
+	}
+	return fmt.Sprintf("%s", b)
+}
+
 type ErrResp struct {
 	Meta ErrMeta `json:"meta"`
 }
