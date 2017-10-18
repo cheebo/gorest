@@ -6,7 +6,7 @@ func ErrorInternal(msg string) error {
 	}
 	return ErrResp{
 		Meta: ErrMeta{
-			ErrCode: 500,
+			ErrCode:    500,
 			ErrMessage: msg,
 		},
 	}
@@ -18,7 +18,7 @@ func ErrorBadRequest(msg string) error {
 	}
 	return ErrResp{
 		Meta: ErrMeta{
-			ErrCode: 400,
+			ErrCode:    400,
 			ErrMessage: msg,
 		},
 	}
@@ -27,7 +27,7 @@ func ErrorBadRequest(msg string) error {
 func ErrorUnauthorized() error {
 	return ErrResp{
 		Meta: ErrMeta{
-			ErrCode: 401,
+			ErrCode:    401,
 			ErrMessage: "Unauthorized",
 		},
 	}
@@ -36,7 +36,7 @@ func ErrorUnauthorized() error {
 func AccessForbidden() error {
 	return ErrResp{
 		Meta: ErrMeta{
-			ErrCode: 403,
+			ErrCode:    403,
 			ErrMessage: "Forbidden",
 		},
 	}
@@ -48,7 +48,7 @@ func ErrorNotFound(msg string) error {
 	}
 	return ErrResp{
 		Meta: ErrMeta{
-			ErrCode: 404,
+			ErrCode:    404,
 			ErrMessage: msg,
 		},
 	}
@@ -60,7 +60,7 @@ func ErrorConflict(msg string) error {
 	}
 	return ErrResp{
 		Meta: ErrMeta{
-			ErrCode: 409,
+			ErrCode:    409,
 			ErrMessage: msg,
 		},
 	}
@@ -72,7 +72,7 @@ func ErrorLocked(msg string) error {
 	}
 	return ErrResp{
 		Meta: ErrMeta{
-			ErrCode: 423,
+			ErrCode:    423,
 			ErrMessage: msg,
 		},
 	}

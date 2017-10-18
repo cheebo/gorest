@@ -6,19 +6,17 @@ import (
 )
 
 type ListResp struct {
-	Items	[]interface{}	`json:"items"`
-	Total	int		`json:"total"`
+	Items []interface{} `json:"items"`
+	Total int           `json:"total"`
+	Err   error         `json:"error,omitempty"`
 }
 
 func (l *ListResp) AddItem(item interface{}) {
 	l.Items = append(l.Items, item)
 }
 
-
-
-
 type ErrResp struct {
-	Meta	ErrMeta		`json:"meta"`
+	Meta ErrMeta `json:"meta"`
 }
 
 func (e ErrResp) Error() string {
@@ -30,16 +28,13 @@ func (e ErrResp) Error() string {
 }
 
 type ErrMeta struct {
-	ErrCode		int	`json:"error_code"`
-	ErrMessage	string	`json:"error_message"`
+	ErrCode    int    `json:"error_code"`
+	ErrMessage string `json:"error_message"`
 }
 
-
-
-
 type ErrFieldResp struct {
-	Meta	ErrFieldRespMeta	`json:"meta"`
-	Fields	[]ErrField		`json:"fields"`
+	Meta   ErrFieldRespMeta `json:"meta"`
+	Fields []ErrField       `json:"fields"`
 }
 
 func (e ErrFieldResp) Error() string {
@@ -55,7 +50,7 @@ func (e *ErrFieldResp) HasErrors() bool {
 }
 
 func (e *ErrFieldResp) AddError(field string, code int, msg string) {
-	for _,element := range e.Fields {
+	for _, element := range e.Fields {
 		if element.Field == field {
 			element.AddError(code, msg)
 			return
@@ -74,23 +69,23 @@ func (e *ErrFieldResp) AddField(field ErrField) {
 }
 
 type ErrFieldRespMeta struct {
-	ErrCode		int		`json:"error_code"`
-	ErrMessage	string		`json:"error_message"`
+	ErrCode    int    `json:"error_code"`
+	ErrMessage string `json:"error_message"`
 }
 
 type ErrField struct {
-	Field	string			`json:"field"`
-	Errs	[]ErrFieldObject	`json:"errors"`
+	Field string           `json:"field"`
+	Errs  []ErrFieldObject `json:"errors"`
 }
 
 func (e *ErrField) AddError(code int, message string) {
 	e.Errs = append(e.Errs, ErrFieldObject{
-		Code: code,
+		Code:    code,
 		Message: message,
 	})
 }
 
 type ErrFieldObject struct {
-	Code	int	`json:"error_code"`
-	Message	string	`json:"error_message"`
+	Code    int    `json:"error_code"`
+	Message string `json:"error_message"`
 }

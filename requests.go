@@ -1,6 +1,5 @@
 package rest
 
-
 type ListOptions struct {
 	// For paginated result sets, page of results to retrieve.
 	Page int `url:"page,omitempty"`
