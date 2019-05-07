@@ -5,6 +5,37 @@ import (
 	"fmt"
 )
 
+type Resp struct {
+	Resp interface{} `json:"response"`
+	Err  error       `json:"error,omitempty"`
+}
+
+func (l *Resp) Error() string {
+	b, err := json.Marshal(l)
+	if err != nil {
+		return "ErrResp: JSON marshaling error"
+	}
+	return fmt.Sprintf("%s", b)
+}
+
+type Meta struct {
+	Code    int         `json:"code"`
+	Message interface{} `json:"message"`
+}
+
+type MetaResp struct {
+	Meta Meta        `json:"meta"`
+	Body interface{} `json:"body"`
+}
+
+func (l *MetaResp) Error() string {
+	b, err := json.Marshal(l)
+	if err != nil {
+		return "ErrResp: JSON marshaling error"
+	}
+	return fmt.Sprintf("%s", b)
+}
+
 type ListResp struct {
 	Items []interface{} `json:"items"`
 	Total int           `json:"total"`
