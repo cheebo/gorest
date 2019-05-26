@@ -54,6 +54,11 @@ func (l *ListResp) Error() string {
 	return fmt.Sprintf("%s", b)
 }
 
+type ErrMeta struct {
+	ErrCode    int    `json:"error_code"`
+	ErrMessage string `json:"error_message"`
+}
+
 type ErrResp struct {
 	Meta ErrMeta `json:"meta"`
 }
@@ -66,14 +71,31 @@ func (e ErrResp) Error() string {
 	return fmt.Sprintf("%s", b)
 }
 
-type ErrMeta struct {
-	ErrCode    int    `json:"error_code"`
-	ErrMessage string `json:"error_message"`
+type ErrListResp struct {
+	Meta   ErrMeta `json:"meta"`
+	Errors []error `json:"errors"`
+}
+
+func (e ErrListResp) Error() string {
+	b, err := json.Marshal(e)
+	if err != nil {
+		return "ErrFieldResp: JSON marshaling error"
+	}
+	return fmt.Sprintf("%s", b)
+}
+
+func (e *ErrListResp) HasErrors() bool {
+	return len(e.Errors) > 0
+}
+
+func (e *ErrListResp) AddError(err error) {
+	e.Errors = append(e.Errors, err)
 }
 
 type ErrFieldResp struct {
-	Meta   ErrFieldRespMeta `json:"meta"`
-	Fields []ErrField       `json:"fields"`
+	Meta   ErrMeta    `json:"meta"`
+	Fields []ErrField `json:"fields,omitempty"`
+	Errors []string   `json:"errors,omitempty"`
 }
 
 func (e ErrFieldResp) Error() string {
@@ -86,6 +108,10 @@ func (e ErrFieldResp) Error() string {
 
 func (e *ErrFieldResp) HasErrors() bool {
 	return len(e.Fields) > 0
+}
+
+func (e *ErrFieldResp) Add(msg string) {
+	e.Errors = append(e.Errors, msg)
 }
 
 func (e *ErrFieldResp) AddError(field string, code int, msg string) {
@@ -105,11 +131,6 @@ func (e *ErrFieldResp) AddError(field string, code int, msg string) {
 
 func (e *ErrFieldResp) AddField(field ErrField) {
 	e.Fields = append(e.Fields, field)
-}
-
-type ErrFieldRespMeta struct {
-	ErrCode    int    `json:"error_code"`
-	ErrMessage string `json:"error_message"`
 }
 
 type ErrField struct {
